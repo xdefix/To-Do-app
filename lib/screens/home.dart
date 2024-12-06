@@ -12,15 +12,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<ToDo> todosList = ToDo
-      .todoList(); // Changed from final to mutable reference to an immutable list
-  List<ToDo> _foundToDo = [];
+  List<ToDo> todosList = ToDo.todoList();
+  List<ToDo> _foundToDo = []; 
   final _todoController = TextEditingController();
 
   @override
   void initState() {
-    _foundToDo = todosList;
     super.initState();
+    _foundToDo = todosList;
   }
 
   @override
@@ -37,7 +36,7 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                searchBox(),
+                searchBox(), 
                 Expanded(
                   child: ListView(
                     children: [
@@ -54,12 +53,23 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      for (ToDo todoo in _foundToDo.reversed)
-                        ToDoItem(
-                          todo: todoo,
-                          onToDoChanged: _handleToDoChange,
-                          onDeleteItem: _deleteToDoItem,
-                        ),
+                      if (_foundToDo.isEmpty)
+                        Center(
+                          child: Text(
+                            'No ToDos found',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: tdGrey,
+                            ),
+                          ),
+                        )
+                      else
+                        for (ToDo todoo in _foundToDo.reversed)
+                          ToDoItem(
+                            todo: todoo,
+                            onToDoChanged: _handleToDoChange,
+                            onDeleteItem: _deleteToDoItem,
+                          ),
                     ],
                   ),
                 )
@@ -142,6 +152,7 @@ class _HomeState extends State<Home> {
   void _deleteToDoItem(String id) {
     setState(() {
       todosList = todosList.where((item) => item.id != id).toList();
+      _foundToDo = todosList; 
     });
   }
 
@@ -156,6 +167,7 @@ class _HomeState extends State<Home> {
           todoText: toDo,
         ),
       ];
+      _foundToDo = todosList;
     });
     _todoController.clear();
   }
@@ -163,7 +175,7 @@ class _HomeState extends State<Home> {
   void _runFilter(String enteredKeyword) {
     List<ToDo> results = [];
     if (enteredKeyword.isEmpty) {
-      results = todosList;
+      results = todosList; 
     } else {
       results = todosList
           .where((item) => item.todoText
@@ -173,7 +185,7 @@ class _HomeState extends State<Home> {
     }
 
     setState(() {
-      _foundToDo = results;
+      _foundToDo = results; 
     });
   }
 
@@ -185,7 +197,8 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
-        onChanged: (value) => _runFilter(value),
+        onChanged: (value) =>
+            _runFilter(value), // Trigger filter on text change
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
