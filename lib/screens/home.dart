@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
   List<ToDo> _foundToDo = []; 
   final _todoController = TextEditingController();
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -37,6 +38,8 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 searchBox(), 
+                Text(_searchQuery),
+                searchBox(),
                 Expanded(
                   child: ListView(
                     children: [
@@ -199,6 +202,12 @@ class _HomeState extends State<Home> {
       child: TextField(
         onChanged: (value) =>
             _runFilter(value), // Trigger filter on text change
+        onChanged: (value) {
+          // _runFilter(value);
+          setState(() {
+            _searchQuery = value;
+          });
+        }, // Trigger filter on text change
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
