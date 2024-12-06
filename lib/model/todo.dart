@@ -18,13 +18,13 @@ class ToDo {
   }
 
   static List<ToDo> todoList() {
-    return const [
-      ToDo(id: '01', todoText: 'Morning Exercise', isDone: true),
-      ToDo(id: '02', todoText: 'Buy Groceries', isDone: true),
-      ToDo(id: '03', todoText: 'Check Emails'),
-      ToDo(id: '04', todoText: 'Team Meeting'),
-      ToDo(id: '05', todoText: 'Work on mobile apps for 2 hours'),
-      ToDo(id: '06', todoText: 'Dinner with Jenny'),
+    return [
+      const ToDo(id: '01', todoText: 'Morning Exercise', isDone: true),
+      const ToDo(id: '02', todoText: 'Buy Groceries', isDone: true),
+      const ToDo(id: '03', todoText: 'Check Emails'),
+      const ToDo(id: '04', todoText: 'Team Meeting'),
+      const ToDo(id: '05', todoText: 'Work on mobile apps for 2 hours'),
+      const ToDo(id: '06', todoText: 'Dinner with Jenny'),
     ];
   }
 }
