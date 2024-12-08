@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
-  List<ToDo> _foundToDo = []; 
+  List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
   String _searchQuery = '';
 
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                searchBox(), 
+                searchBox(),
                 Text(_searchQuery),
                 searchBox(),
                 Expanded(
@@ -155,7 +155,7 @@ class _HomeState extends State<Home> {
   void _deleteToDoItem(String id) {
     setState(() {
       todosList = todosList.where((item) => item.id != id).toList();
-      _foundToDo = todosList; 
+      _foundToDo = todosList;
     });
   }
 
@@ -178,7 +178,7 @@ class _HomeState extends State<Home> {
   void _runFilter(String enteredKeyword) {
     List<ToDo> results = [];
     if (enteredKeyword.isEmpty) {
-      results = todosList; 
+      results = todosList;
     } else {
       results = todosList
           .where((item) => item.todoText
@@ -188,7 +188,7 @@ class _HomeState extends State<Home> {
     }
 
     setState(() {
-      _foundToDo = results; 
+      _foundToDo = results;
     });
   }
 
@@ -199,9 +199,7 @@ class _HomeState extends State<Home> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: TextField(
-        onChanged: (value) =>
-            _runFilter(value), // Trigger filter on text change
+      child: TextField(// Trigger filter on text change
         onChanged: (value) {
           // _runFilter(value);
           setState(() {
