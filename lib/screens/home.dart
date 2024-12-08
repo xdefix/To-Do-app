@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../model/filter_utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Generated localization file
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  final Function(Locale locale) onLocaleChange; // Callback to change the locale
+
+  const Home({Key? key, required this.onLocaleChange}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -13,13 +15,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
-  String _searchQuery = ""; // Store the current search query
+  String _searchQuery = ""; // Current search query
   final _todoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Filter the todosList based on the search query
-    List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery);
+    List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery); // Filter todos dynamically
 
     return Scaffold(
       backgroundColor: tdBGColor,
@@ -27,37 +28,43 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 15,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
-                searchBox(), // Search bar at the top
+                searchBox(),
                 Expanded(
                   child: ListView(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                          top: 50,
-                          bottom: 20,
-                        ),
-                        child: Text(
-                          'All ToDos',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        margin: const EdgeInsets.only(top: 50, bottom: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.all_todos, // Localized text
+                              style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.language, color: tdBlue),
+                              onPressed: () {
+                                // Toggle locale between English and Bulgarian
+                                Locale newLocale = Localizations.localeOf(context).languageCode == 'en'
+                                    ? const Locale('bg')
+                                    : const Locale('en');
+                                widget.onLocaleChange(newLocale); // Update locale
+                              },
+                            ),
+                          ],
                         ),
                       ),
                       if (filteredTodos.isEmpty)
                         Center(
                           child: Text(
-                            'No ToDos found',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: tdGrey,
-                            ),
+                            AppLocalizations.of(context)!.no_todos, // Localized no todos message
+                            style: const TextStyle(fontSize: 18, color: tdGrey),
                           ),
                         )
                       else
@@ -79,8 +86,8 @@ class _HomeState extends State<Home> {
               children: [
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    margin: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: const [
@@ -96,16 +103,21 @@ class _HomeState extends State<Home> {
                     child: TextField(
                       controller: _todoController,
                       decoration: InputDecoration(
-                        hintText: 'Add a new todo item',
+                        hintText: AppLocalizations.of(context)!.search_hint, // Localized hint text
                         border: InputBorder.none,
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value; // Update search query on text change
+                        });
+                      },
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 20, right: 20),
+                  margin: const EdgeInsets.only(bottom: 20, right: 20),
                   child: ElevatedButton(
-                    child: Text(
+                    child: const Text(
                       '+',
                       style: TextStyle(fontSize: 40),
                     ),
@@ -114,7 +126,7 @@ class _HomeState extends State<Home> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: tdBlue,
-                      minimumSize: Size(60, 60),
+                      minimumSize: const Size(60, 60),
                       elevation: 10,
                     ),
                   ),
@@ -160,32 +172,31 @@ class _HomeState extends State<Home> {
 
   Widget searchBox() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: TextField(
-        onChanged: (value) {
-          setState(() {
-            _searchQuery = value; // Update the search query
-          });
-        },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(0),
-          prefixIcon: Icon(
+          contentPadding: const EdgeInsets.all(0),
+          prefixIcon: const Icon(
             Icons.search,
             color: tdBlack,
             size: 20,
           ),
-          prefixIconConstraints: BoxConstraints(
+          prefixIconConstraints: const BoxConstraints(
             maxHeight: 20,
             minWidth: 25,
           ),
           border: InputBorder.none,
-          hintText: 'Search',
-          hintStyle: TextStyle(color: tdGrey),
+          hintText: AppLocalizations.of(context)!.search_hint, // Localized hint text
         ),
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value; // Update search query
+          });
+        },
       ),
     );
   }
@@ -194,21 +205,24 @@ class _HomeState extends State<Home> {
     return AppBar(
       backgroundColor: tdBGColor,
       elevation: 0,
-      title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Icon(
-          Icons.menu,
-          color: tdBlack,
-          size: 30,
-        ),
-        Container(
-          height: 40,
-          width: 40,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: const Image(image: AssetImage('assets/images/avatar.jpg')),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Icon(
+            Icons.menu,
+            color: tdBlack,
+            size: 30,
           ),
-        ),
-      ]),
+          Container(
+            height: 40,
+            width: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: const Image(image: AssetImage('assets/images/avatar.jpg')),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
