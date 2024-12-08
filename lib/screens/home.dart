@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Generated localization file
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
+import '../model/filter_utils.dart';
+import '../screens/settings_screen.dart';
 
 class Home extends StatefulWidget {
   final Function(Locale locale) onLocaleChange; // Callback to change the locale
@@ -31,7 +33,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
-                searchBox(),
+                searchBox(), // Keep the search box in the main body
                 Expanded(
                   child: ListView(
                     children: [
@@ -80,6 +82,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+          // Bottom bar for adding new to-do
           Align(
             alignment: Alignment.bottomCenter,
             child: Row(
@@ -103,14 +106,9 @@ class _HomeState extends State<Home> {
                     child: TextField(
                       controller: _todoController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.search_hint, // Localized hint text
+                        hintText: AppLocalizations.of(context)!.add_todo_hint, // Localized hint text for adding a to-do
                         border: InputBorder.none,
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value; // Update search query on text change
-                        });
-                      },
                     ),
                   ),
                 ),
@@ -139,6 +137,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // Handle to-do change
   void _handleToDoChange(ToDo todo) {
     setState(() {
       final updatedTodo = todo.copyWith(isDone: !todo.isDone);
@@ -149,12 +148,14 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // Delete to-do item
   void _deleteToDoItem(String id) {
     setState(() {
       todosList = todosList.where((item) => item.id != id).toList();
     });
   }
 
+  // Add new to-do item
   void _addToDoItem(String toDo) {
     if (toDo.isEmpty) return;
 
@@ -170,6 +171,7 @@ class _HomeState extends State<Home> {
     _todoController.clear();
   }
 
+  // Search box in the main body
   Widget searchBox() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -190,7 +192,7 @@ class _HomeState extends State<Home> {
             minWidth: 25,
           ),
           border: InputBorder.none,
-          hintText: AppLocalizations.of(context)!.search_hint, // Localized hint text
+          hintText: AppLocalizations.of(context)!.search_hint, // Localized hint text for search
         ),
         onChanged: (value) {
           setState(() {
@@ -201,6 +203,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // Build the AppBar
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: tdBGColor,
@@ -220,6 +223,18 @@ class _HomeState extends State<Home> {
               borderRadius: BorderRadius.circular(20),
               child: const Image(image: AssetImage('assets/images/avatar.jpg')),
             ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings, color: tdBlue),
+            onPressed: () {
+              // Navigate to Settings screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(), // Your new SettingsScreen
+                ),
+              );
+            },
           ),
         ],
       ),

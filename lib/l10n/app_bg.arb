@@ -2,6 +2,7 @@
     "@@locale": "bg",
     "all_todos": "Всички задачи",
     "no_todos": "Няма намерени задачи",
-    "search_hint": "Търсене"
+    "search_hint": "Търсене",
+    "add_todo_hint": "Добави нова задача"
   }
   

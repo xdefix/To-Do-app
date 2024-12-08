@@ -2,6 +2,7 @@
     "@@locale": "en",
     "all_todos": "All ToDos",
     "no_todos": "No ToDos found",
-    "search_hint": "Search"
+    "search_hint": "Search",
+    "add_todo_hint": "Add new To Do"
   }
   
