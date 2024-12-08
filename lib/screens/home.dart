@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../model/filter_utils.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
@@ -13,18 +13,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
-  List<ToDo> _foundToDo = [];
+  String _searchQuery = ""; // Store the current search query
   final _todoController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _foundToDo = todosList;
-  }
 
   @override
   Widget build(BuildContext context) {
+    // Filter the todosList based on the search query
+    List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery);
+
     return Scaffold(
       backgroundColor: tdBGColor,
       appBar: _buildAppBar(),
@@ -37,9 +33,7 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                searchBox(),
-                Text(_searchQuery),
-                searchBox(),
+                searchBox(), // Search bar at the top
                 Expanded(
                   child: ListView(
                     children: [
@@ -56,7 +50,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      if (_foundToDo.isEmpty)
+                      if (filteredTodos.isEmpty)
                         Center(
                           child: Text(
                             'No ToDos found',
@@ -67,75 +61,66 @@ class _HomeState extends State<Home> {
                           ),
                         )
                       else
-                        for (ToDo todoo in _foundToDo.reversed)
+                        for (ToDo todo in filteredTodos.reversed)
                           ToDoItem(
-                            todo: todoo,
+                            todo: todo,
                             onToDoChanged: _handleToDoChange,
                             onDeleteItem: _deleteToDoItem,
                           ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: 20,
-                    right: 20,
-                    left: 20,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0.0, 0.0),
-                        blurRadius: 10.0,
-                        spreadRadius: 0.0,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: _todoController,
-                    decoration: InputDecoration(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 20, right: 20, left: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0.0, 0.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 0.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: _todoController,
+                      decoration: InputDecoration(
                         hintText: 'Add a new todo item',
-                        border: InputBorder.none),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  bottom: 20,
-                  right: 20,
-                ),
-                child: ElevatedButton(
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 40,
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    _addToDoItem(_todoController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: tdBlue,
-                    minimumSize: Size(60, 60),
-                    elevation: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20, right: 20),
+                  child: ElevatedButton(
+                    child: Text(
+                      '+',
+                      style: TextStyle(fontSize: 40),
+                    ),
+                    onPressed: () {
+                      _addToDoItem(_todoController.text);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: tdBlue,
+                      minimumSize: Size(60, 60),
+                      elevation: 10,
+                    ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
         ],
       ),
@@ -155,7 +140,6 @@ class _HomeState extends State<Home> {
   void _deleteToDoItem(String id) {
     setState(() {
       todosList = todosList.where((item) => item.id != id).toList();
-      _foundToDo = todosList;
     });
   }
 
@@ -170,26 +154,8 @@ class _HomeState extends State<Home> {
           todoText: toDo,
         ),
       ];
-      _foundToDo = todosList;
     });
     _todoController.clear();
-  }
-
-  void _runFilter(String enteredKeyword) {
-    List<ToDo> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = todosList;
-    } else {
-      results = todosList
-          .where((item) => item.todoText
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-
-    setState(() {
-      _foundToDo = results;
-    });
   }
 
   Widget searchBox() {
@@ -199,13 +165,12 @@ class _HomeState extends State<Home> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: TextField(// Trigger filter on text change
+      child: TextField(
         onChanged: (value) {
-          // _runFilter(value);
           setState(() {
-            _searchQuery = value;
+            _searchQuery = value; // Update the search query
           });
-        }, // Trigger filter on text change
+        },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(0),
           prefixIcon: Icon(
