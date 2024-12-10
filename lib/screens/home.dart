@@ -7,7 +7,7 @@ import '../model/filter_utils.dart';
 import '../screens/settings_screen.dart';
 
 class Home extends StatefulWidget {
-  final Function(Locale locale) onLocaleChange; // Callback to change the locale
+  final void Function(Locale locale) onLocaleChange; // Callback to change the locale
 
   const Home({Key? key, required this.onLocaleChange}) : super(key: key);
 
