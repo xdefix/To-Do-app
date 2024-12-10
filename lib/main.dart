@@ -16,11 +16,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en'); // Default locale
+  Locale _currentLocale = const Locale('en');
 
-  void _setLocale(Locale locale) {
+  void _setLocale(Locale newLocale) {
     setState(() {
-      _locale = locale;
+      _currentLocale = newLocale;
     });
   }
 
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ToDo App',
-      locale: _locale,
+      locale: _currentLocale,
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
