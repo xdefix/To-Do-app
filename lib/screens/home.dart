@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchBar;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
@@ -9,7 +9,7 @@ import '../widgets/add_todo_bar.dart';
 import '../widgets/user_icon.dart'; 
 import '../widgets/settings_button.dart'; 
 import '../widgets/language_toggle_button.dart'; 
-import '../widgets/search_bar.dart' as custom;
+import '../widgets/search_bar.dart';
 
 class Home extends StatefulWidget {
   final void Function(Locale locale) onLocaleChange;
@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
-                custom.SearchBar(
+                SearchBar(
                   onSearchChanged: (value) {
                     setState(() {
                       _searchQuery = value;
