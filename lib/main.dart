@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         Locale('bg'), // Bulgarian
       ],
       home: Home(
-        onLocaleChange: _setLocale, // Pass the locale change handler to Home
+        onLocaleChange: _setLocale,
       ),
     );
   }

@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
   final _todoController = TextEditingController();
-  String _searchQuery = ''; // Store the search query
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
             ),
             child: Column(
               children: [
-                searchBox(), // Render the search bar
+                searchBox(), 
                 Expanded(
                   child: ListView(
                     children: [
@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
 
   List<ToDo> filteredToDoList() {
     if (_searchQuery.isEmpty) {
-      return todosList; // No filter applied
+      return todosList; 
     } else {
       return todosList
           .where((item) =>
@@ -184,7 +184,7 @@ class _HomeState extends State<Home> {
       child: TextField(
         onChanged: (value) {
           setState(() {
-            _searchQuery = value; // Update the search query
+            _searchQuery = value; 
           });
         },
         decoration: InputDecoration(

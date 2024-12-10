@@ -7,7 +7,7 @@ import '../model/filter_utils.dart';
 import '../screens/settings_screen.dart';
 
 class Home extends StatefulWidget {
-  final void Function(Locale locale) onLocaleChange; // Callback to change the locale
+  final void Function(Locale locale) onLocaleChange;
 
   const Home({Key? key, required this.onLocaleChange}) : super(key: key);
 
@@ -17,12 +17,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
-  String _searchQuery = ""; // Current search query
+  String _searchQuery = ""; 
   final _todoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery); // Filter todos dynamically
+    List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery); 
 
     return Scaffold(
       backgroundColor: tdBGColor,
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
-                searchBox(), // Keep the search box in the main body
+                searchBox(),
                 Expanded(
                   child: ListView(
                     children: [
@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.all_todos, // Localized text
+                              AppLocalizations.of(context)!.all_todos, 
                               style: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.w500,
@@ -52,11 +52,10 @@ class _HomeState extends State<Home> {
                             IconButton(
                               icon: const Icon(Icons.language, color: tdBlue),
                               onPressed: () {
-                                // Toggle locale between English and Bulgarian
                                 Locale newLocale = Localizations.localeOf(context).languageCode == 'en'
                                     ? const Locale('bg')
                                     : const Locale('en');
-                                widget.onLocaleChange(newLocale); // Update locale
+                                widget.onLocaleChange(newLocale); 
                               },
                             ),
                           ],
@@ -65,7 +64,7 @@ class _HomeState extends State<Home> {
                       if (filteredTodos.isEmpty)
                         Center(
                           child: Text(
-                            AppLocalizations.of(context)!.no_todos, // Localized no todos message
+                            AppLocalizations.of(context)!.no_todos, 
                             style: const TextStyle(fontSize: 18, color: tdGrey),
                           ),
                         )
@@ -82,7 +81,6 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          // Bottom bar for adding new to-do
           Align(
             alignment: Alignment.bottomCenter,
             child: Row(
@@ -106,7 +104,7 @@ class _HomeState extends State<Home> {
                     child: TextField(
                       controller: _todoController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.add_todo_hint, // Localized hint text for adding a to-do
+                        hintText: AppLocalizations.of(context)!.add_todo_hint,  
                         border: InputBorder.none,
                       ),
                     ),
@@ -137,7 +135,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Handle to-do change
   void _handleToDoChange(ToDo todo) {
     setState(() {
       final updatedTodo = todo.copyWith(isDone: !todo.isDone);
@@ -148,14 +145,12 @@ class _HomeState extends State<Home> {
     });
   }
 
-  // Delete to-do item
   void _deleteToDoItem(String id) {
     setState(() {
       todosList = todosList.where((item) => item.id != id).toList();
     });
   }
 
-  // Add new to-do item
   void _addToDoItem(String toDo) {
     if (toDo.isEmpty) return;
 
@@ -171,7 +166,6 @@ class _HomeState extends State<Home> {
     _todoController.clear();
   }
 
-  // Search box in the main body
   Widget searchBox() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -192,18 +186,17 @@ class _HomeState extends State<Home> {
             minWidth: 25,
           ),
           border: InputBorder.none,
-          hintText: AppLocalizations.of(context)!.search_hint, // Localized hint text for search
+          hintText: AppLocalizations.of(context)!.search_hint,
         ),
         onChanged: (value) {
           setState(() {
-            _searchQuery = value; // Update search query
+            _searchQuery = value; 
           });
         },
       ),
     );
   }
 
-  // Build the AppBar
   AppBar _buildAppBar() {
     return AppBar(
       backgroundColor: tdBGColor,
@@ -227,11 +220,10 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: const Icon(Icons.settings, color: tdBlue),
             onPressed: () {
-              // Navigate to Settings screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SettingsScreen(), // Your new SettingsScreen
+                  builder: (context) => SettingsScreen(), 
                 ),
               );
             },
