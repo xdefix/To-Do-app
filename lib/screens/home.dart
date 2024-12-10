@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
-import '../model/filter_utils.dart';
+import '../utils/filter_utils.dart';
 import '../screens/settings_screen.dart';
 
 class Home extends StatefulWidget {
