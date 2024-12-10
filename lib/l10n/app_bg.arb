@@ -1,8 +1,17 @@
 {
-    "@@locale": "bg",
-    "all_todos": "Всички задачи",
-    "no_todos": "Няма намерени задачи",
-    "search_hint": "Търсене",
-    "add_todo_hint": "Добави нова задача"
-  }
-  
+  "@@locale": "bg",
+  "welcomeMessage": "Добре дошъл: {user}",
+  "@welcomeMessage": {
+    "description": "A message to say welcome",
+    "placeholders": {
+      "user": {
+        "type": "String",
+        "example": "Боб"
+      }
+    }
+  },
+  "all_todos": "Всички задачи",
+  "no_todos": "Няма намерени задачи",
+  "search_hint": "Търсене",
+  "add_todo_hint": "Добави нова задача"
+}

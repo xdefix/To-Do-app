@@ -1,8 +1,18 @@
 {
-    "@@locale": "en",
-    "all_todos": "All ToDos",
-    "no_todos": "No ToDos found",
-    "search_hint": "Search",
-    "add_todo_hint": "Add new To Do"
-  }
-  
+  "@@locale": "en",
+  "welcomeMessage": "Welcome: {user}",
+  "@welcomeMessage": {
+    "description": "A message to say welcome",
+    "placeholders": {
+      "user": {
+        "type": "String",
+        "example": "Bob"
+      }
+    }
+  },
+  "all_todos": "All ToDos",
+  "no_todos": "No ToDos found",
+  "search_hint": "Search",
+  "add_todo_hint": "Add new To Do",
+  "default_name": "Guest"
+}

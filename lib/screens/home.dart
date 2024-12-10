@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; 
 import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
@@ -24,10 +24,13 @@ class _HomeState extends State<Home> {
   List<ToDo> todosList = ToDo.todoList();
   String _searchQuery = "";
   final _todoController = TextEditingController();
+  String username = "User";
 
   @override
   Widget build(BuildContext context) {
     List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery);
+
+    String welcomeMessage = AppLocalizations.of(context)!.welcomeMessage(username);
 
     return Scaffold(
       backgroundColor: tdBGColor,
@@ -38,6 +41,13 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
+                Text(
+                  welcomeMessage,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 custom.SearchBar(
                   onSearchChanged: (value) {
                     setState(() {
