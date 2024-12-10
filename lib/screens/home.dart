@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide SearchBar;
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../model/todo.dart';
 import '../constants/colors.dart';
@@ -9,12 +9,12 @@ import '../widgets/add_todo_bar.dart';
 import '../widgets/user_icon.dart'; 
 import '../widgets/settings_button.dart'; 
 import '../widgets/language_toggle_button.dart'; 
-import '../widgets/search_bar.dart';
+import '../widgets/search_bar.dart' as custom;
 
 class Home extends StatefulWidget {
-  final void Function(Locale locale) onLocaleChange;
+  final VoidCallback onLocaleToggle; 
 
-  const Home({Key? key, required this.onLocaleChange}) : super(key: key);
+  const Home({Key? key, required this.onLocaleToggle}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             child: Column(
               children: [
-                SearchBar(
+                custom.SearchBar(
                   onSearchChanged: (value) {
                     setState(() {
                       _searchQuery = value;
@@ -110,13 +110,7 @@ class _HomeState extends State<Home> {
           Row(
             children: [
               LanguageToggleButton(
-                onPressed: () {
-                  Locale newLocale =
-                      Localizations.localeOf(context).languageCode == 'en'
-                          ? const Locale('bg')
-                          : const Locale('en');
-                  widget.onLocaleChange(newLocale);
-                },
+                onPressed: widget.onLocaleToggle, 
               ),
               SettingsButton(
                 onPressed: () {

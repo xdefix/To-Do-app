@@ -18,9 +18,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale _currentLocale = const Locale('en');
 
-  void _setLocale(Locale newLocale) {
+  void _toggleLocale() {
     setState(() {
-      _currentLocale = newLocale;
+      _currentLocale = _currentLocale.languageCode == 'en'
+          ? const Locale('bg')
+          : const Locale('en');
     });
   }
 
@@ -42,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         Locale('bg'), // Bulgarian
       ],
       home: Home(
-        onLocaleChange: _setLocale,
+        onLocaleToggle: _toggleLocale,
       ),
     );
   }
