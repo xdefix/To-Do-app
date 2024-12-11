@@ -92,8 +92,10 @@ class _HomeState extends State<Home> {
             alignment: Alignment.bottomCenter,
             child: AddToDoBar(
               controller: _todoController,
-              onAdd: () {
-                _addToDoItem(_todoController.text);
+              onAddToDo: (newToDo) {
+                setState(() {
+                  todosList = [...todosList, newToDo];
+                });
               },
               hintText: AppLocalizations.of(context)!
                   .add_todo_hint,
@@ -153,20 +155,5 @@ class _HomeState extends State<Home> {
     setState(() {
       todosList = todosList.where((item) => item.id != id).toList();
     });
-  }
-
-  void _addToDoItem(String toDo) {
-    if (toDo.isEmpty) return;
-
-    setState(() {
-      todosList = [
-        ...todosList,
-        ToDo(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          todoText: toDo,
-        ),
-      ];
-    });
-    _todoController.clear();
   }
 }

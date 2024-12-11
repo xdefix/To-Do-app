@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
+import '../model/todo.dart';
 
 class AddToDoBar extends StatelessWidget {
   final TextEditingController controller;
-  final VoidCallback onAdd;
-  final String hintText; 
+  final Function(ToDo) onAddToDo;
+  final String hintText;
 
   const AddToDoBar({
     Key? key,
     required this.controller,
-    required this.onAdd,
+    required this.onAddToDo,
     required this.hintText,
   }) : super(key: key);
 
@@ -49,7 +50,16 @@ class AddToDoBar extends StatelessWidget {
               '+',
               style: TextStyle(fontSize: 40),
             ),
-            onPressed: onAdd,
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                final newToDo = ToDo(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  todoText: controller.text,
+                );
+                onAddToDo(newToDo);
+                controller.clear();
+              }
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: tdBlue,
               minimumSize: const Size(60, 60),
