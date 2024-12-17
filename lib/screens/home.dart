@@ -10,6 +10,7 @@ import '../widgets/user_icon.dart';
 import '../widgets/settings_button.dart'; 
 import '../widgets/language_toggle_button.dart'; 
 import '../widgets/search_bar.dart' as custom;
+import '../widgets/toggle_sort_button.dart';  // Import the ToggleSortButton
 
 class Home extends StatefulWidget {
   final VoidCallback onLocaleToggle; 
@@ -25,10 +26,20 @@ class _HomeState extends State<Home> {
   String _searchQuery = "";
   final _todoController = TextEditingController();
   String username = "User";
+  bool isSortedByDate = true;  // Track whether it's sorted by date or name
 
   @override
   Widget build(BuildContext context) {
+    // Filter todos based on search query
     List<ToDo> filteredTodos = filterTodos(todosList, _searchQuery);
+
+    // Sort the list based on the current sorting order (date or content)
+    if (isSortedByDate) {
+      // Sorting by id in descending order (newer todos will have higher ids)
+      filteredTodos.sort((a, b) => b.id.compareTo(a.id));  // Descending id sort
+    } else {
+      filteredTodos.sort((a, b) => a.todoText.toUpperCase().compareTo(b.todoText.toUpperCase()));  // Descending content sort
+    }
 
     String welcomeMessage = AppLocalizations.of(context)!.welcomeMessage(username);
 
@@ -76,7 +87,7 @@ class _HomeState extends State<Home> {
                           ),
                         )
                       else
-                        for (ToDo todo in filteredTodos.reversed)
+                        for (ToDo todo in filteredTodos)
                           ToDoItem(
                             todo: todo,
                             onToDoChanged: _handleToDoChange,
@@ -132,6 +143,14 @@ class _HomeState extends State<Home> {
                       builder: (context) => SettingsScreen(),
                     ),
                   );
+                },
+              ),
+              ToggleSortButton(  // Add the toggle sort button
+                isSortedByDate: isSortedByDate,
+                onToggleSort: () {
+                  setState(() {
+                    isSortedByDate = !isSortedByDate;          
+                  });
                 },
               ),
             ],
