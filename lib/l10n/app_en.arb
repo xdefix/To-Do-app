@@ -14,5 +14,8 @@
   "no_todos": "No ToDos found",
   "search_hint": "Search",
   "add_todo_hint": "Add new To Do",
-  "default_name": "Guest"
+  "default_name": "Guest",
+  "dev_text": "In Development :)",
+  "sort_name" : "Sort by name",
+  "sort_date" : "Sort by date"
 }

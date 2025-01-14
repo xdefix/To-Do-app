@@ -13,5 +13,9 @@
   "all_todos": "Всички задачи",
   "no_todos": "Няма намерени задачи",
   "search_hint": "Търсене",
-  "add_todo_hint": "Добави нова задача"
+  "add_todo_hint": "Добави нова задача",
+  "default_name": "Guest",
+  "dev_text": "В разработка :)",
+  "sort_name" : "Сортирай по име",
+  "sort_date" : "Сортирай по дата"
 }

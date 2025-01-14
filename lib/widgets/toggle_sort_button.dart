@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ToggleSortButton extends StatelessWidget {
   final bool isSortedByDate;
@@ -20,7 +21,9 @@ class ToggleSortButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       ),
       child: Text(
-        isSortedByDate ? 'Sort by Name' : 'Sort by Date',
+        isSortedByDate
+            ? AppLocalizations.of(context)!.sort_name
+            : AppLocalizations.of(context)!.sort_date,
         style: TextStyle(fontSize: 16),
       ),
     );

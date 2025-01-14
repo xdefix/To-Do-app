@@ -10,7 +10,7 @@ import '../widgets/user_icon.dart';
 import '../widgets/settings_button.dart'; 
 import '../widgets/language_toggle_button.dart'; 
 import '../widgets/search_bar.dart' as custom;
-import '../widgets/toggle_sort_button.dart';  // Import the ToggleSortButton
+import '../widgets/toggle_sort_button.dart'; 
 
 class Home extends StatefulWidget {
   final VoidCallback onLocaleToggle; 
@@ -35,8 +35,7 @@ class _HomeState extends State<Home> {
 
     // Sort the list based on the current sorting order (date or content)
     if (isSortedByDate) {
-      // Sorting by id in descending order (newer todos will have higher ids)
-      filteredTodos.sort((a, b) => b.id.compareTo(a.id));  // Descending id sort
+      filteredTodos.sort((a, b) => b.id.compareTo(a.id));  
     } else {
       filteredTodos.sort((a, b) => a.todoText.toUpperCase().compareTo(b.todoText.toUpperCase()));  // Descending content sort
     }
@@ -145,7 +144,7 @@ class _HomeState extends State<Home> {
                   );
                 },
               ),
-              ToggleSortButton(  // Add the toggle sort button
+              ToggleSortButton( 
                 isSortedByDate: isSortedByDate,
                 onToggleSort: () {
                   setState(() {
